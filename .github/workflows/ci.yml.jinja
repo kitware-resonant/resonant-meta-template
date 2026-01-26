@@ -1,0 +1,27 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: {{ range(min_python_minor_version, max_python_minor_version + 1)|map('regex_replace', '^(.*)$', '3.\\1')|list|to_json }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          # Tags are needed to compute the current version number
+          fetch-depth: 0
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: {% raw %}${{ matrix.python-version }}{% endraw %}
+      - name: Run tests
+        run: |
+          uv run tox
