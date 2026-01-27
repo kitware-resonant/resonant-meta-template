@@ -61,6 +61,12 @@ type = [
   "mypy",
   "django-stubs[compatible-mypy]",
 ]
+test = [
+  "pytest",
+  "pytest-cov",
+  "pytest-django",
+  "pytest-mock",
+]
 
 [tool.hatch.build]
 only-include = [
@@ -74,6 +80,12 @@ source = "vcs"
 line-length = 100
 target-version = ["py3{{ min_python_minor_version }}"]
 
+[tool.coverage.paths]
+source = [
+  "{{ python_package_name }}/",
+  ".tox/**/site-packages/{{ python_package_name }}/",
+]
+
 [tool.isort]
 profile = "black"
 line_length = 100
@@ -85,6 +97,7 @@ combine_as_imports = true
 [tool.mypy]
 files = [
   "{{ python_package_name }}",
+  "tests",
 ]
 check_untyped_defs = true
 show_error_codes = true
@@ -92,3 +105,36 @@ strict = true
 warn_redundant_casts = true
 warn_unused_configs = true
 warn_unused_ignores = true
+plugins = [
+  "mypy_django_plugin.main",
+]
+mypy_path = [
+  # Use the same pythonpath for MyPy as for Pytest
+  "tests",
+]
+
+[tool.django-stubs]
+django_settings_module = "test_app.settings"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Allow test utility modules to be imported without adding the root directory to the pythonpath,
+# which would cause the local "{{ python_package_name }}" module to shadow the install.
+pythonpath = ["tests"]
+# Configure pythonpath ourselves, not based on manage.py
+django_find_project = false
+addopts = [
+  # Use the Pytest-recommended "importlib" mode
+  "--import-mode=importlib",
+  "--strict-config",
+  "--strict-markers",
+  "--showlocals",
+  "--verbose",
+  "--cov",
+]
+filterwarnings = [
+  "error",
+  # pytest often causes unclosed socket warnings
+  'ignore:unclosed <socket\.socket:ResourceWarning',
+]
+DJANGO_SETTINGS_MODULE = "test_app.settings"
