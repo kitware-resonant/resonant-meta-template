@@ -173,7 +173,9 @@ files = [
 ]
 check_untyped_defs = true
 show_error_codes = true
+{%- if not django_project %}
 strict = true
+{%- endif %}
 warn_redundant_casts = true
 warn_unused_configs = true
 warn_unused_ignores = true
@@ -184,6 +186,11 @@ mypy_path = [
   # Use the same pythonpath for MyPy as for Pytest
   "tests",
 ]
+
+[[tool.mypy.overrides]]
+module = [
+]
+ignore_missing_imports = true
 
 [tool.django-stubs]
 django_settings_module = "test_app.settings"
