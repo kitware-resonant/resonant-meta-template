@@ -10,5 +10,8 @@ min_python_minor_version:
 max_python_minor_version:
   default: 14
   help: The maximum Python minor version supported by the project.
+django_project:
+  default: false
+  help: Whether this is a Django project, not a library.
 
 _answers_file: .copier-answers.resonant-meta.yml

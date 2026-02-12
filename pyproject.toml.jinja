@@ -99,7 +99,13 @@ ignore = [
   "EM101", # raw-string-in-exception
   "ERA001", # commented-out-code
   "FIX", # flake8-fixme
+  {%- if django_project %}
+  "PLR2004", # magic-value-comparison
+  {%- endif %}
+  "RET505", # superfluous-else-return
   "RET506", # superfluous-else-raise
+  "RET507", # superfluous-else-continue
+  "RET508", # superfluous-else-break
   "TD002", # missing-todo-author
   "TD003", # missing-todo-link
   "TRY003", # raise-vanilla-args
@@ -108,25 +114,41 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"**/settings/**" = [
-  "F403", # undefined-local-with-import-star
-  "F405", # undefined-local-with-import-star-usage
+{%- if not django_project %}
+"dev/**" = [
+  "INP001", # implicit-namespace-package
 ]
-"**/settings/{development,testing}.py" = [
-  "S105", # hardcoded-password-string
-]
+{%- endif %}
 "**/migrations/**" = [
   "N806", # non-lowercase-variable-in-function
   "RUF012", # mutable-class-default
 ]
+{%- if django_project %}
+"**/settings/**" = [
+  "F403", # undefined-local-with-import-star
+  "F405", # undefined-local-with-import-star-usage
+]
+{%- endif %}
+"**/{% if django_project %}settings/{development,testing}.py{% else %}settings.py{% endif %}" = [
+  "S105", # hardcoded-password-string
+]
 "**/tests/**" = [
   "DJ007", # django-all-with-model-form
   "DJ008", # django-model-without-dunder-str
+  "INP001", # implicit-namespace-package
   "PLR0913", # too-many-arguments
+  {%- if not django_project %}
   "PLR2004", # magic-value-comparison
+  {%- endif %}
   "S", # flake8-bandit
   "SLF001", # private-member-access
 ]
+
+[tool.ruff.lint.flake8-boolean-trap]
+extend-allowed-calls = ["pydantic.Field", "django.db.models.Value"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["ninja.Query"]
 
 [tool.ruff.lint.flake8-self]
 extend-ignore-names = ["_base_manager", "_default_manager",  "_meta"]
@@ -136,6 +158,10 @@ extend-ignore-names = ["_base_manager", "_default_manager",  "_meta"]
 force-sort-within-sections = true
 # Deferred annotations allows TC* rules to move more imports into TYPE_CHECKING blocks
 required-imports = ["from __future__ import annotations"]
+{%- if django_project %}
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder", "resonant-settings"]
+sections = {"resonant-settings" = ["resonant_settings"] }
+{%- endif %}
 
 [tool.ruff.lint.pydocstyle]
 convention = "pep257"
