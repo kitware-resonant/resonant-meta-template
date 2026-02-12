@@ -1,9 +1,6 @@
 project_slug:
   default: "{{ project_name|lower|replace(' ', '-')|regex_replace('[^a-z0-9\\-]', '') }}"
   help: A dash-delimited project identifier.
-project_description:
-  placeholder: "A library to support Resonant."
-  help: A human-readable description for the project.
 python_package_name:
   default: "{{ project_slug|replace('-', '_') }}"
   help: An underscore-delimited Python package identifier.
