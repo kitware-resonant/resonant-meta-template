@@ -15,6 +15,9 @@ keywords = [
   "resonant",
   "kitware-resonant",
 ]
+{%- if django_project %}
+classifiers = ["Private :: Do Not Upload"]
+{%- elif %}
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Environment :: Web Environment",
@@ -31,6 +34,7 @@ classifiers = [
   "Programming Language :: Python :: 3.{{ python_minor_version }}",
   {%- endfor %}
 ]
+{%- endif %}
 dependencies = [
   "django>=5.2",
 ]
