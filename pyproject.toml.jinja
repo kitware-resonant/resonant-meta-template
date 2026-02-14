@@ -214,13 +214,14 @@ addopts = [
   "--showlocals",
   "--verbose",
   "--cov",
+  # Specifying as "--ds" will override any value in the environment
+  "--ds=test_app.settings",
 ]
 filterwarnings = [
   "error",
   # pytest often causes unclosed socket warnings
   'ignore:unclosed <socket\.socket:ResourceWarning',
 ]
-DJANGO_SETTINGS_MODULE = "test_app.settings"
 
 [tool.coverage.paths]
 source = [
