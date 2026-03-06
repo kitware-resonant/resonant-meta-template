@@ -1,0 +1,6 @@
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'github>kitware-resonant/.github:renovate-{% if django_project %}project{% else %}library{% endif %}.json5',
+  ],
+}
