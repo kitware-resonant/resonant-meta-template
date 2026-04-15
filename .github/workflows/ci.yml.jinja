@@ -24,4 +24,4 @@ jobs:
           python-version: {% raw %}${{ matrix.python-version }}{% endraw %}
       - name: Run tests
         run: |
-          uv run tox
+          uv run --locked tox
