@@ -232,6 +232,11 @@ filterwarnings = [
   'ignore:unclosed <socket\.socket:ResourceWarning',
 ]
 
+[tool.coverage.run]
+source_pkgs = [
+  "{{ python_package_name }}",
+]
+
 [tool.coverage.paths]
 source = [
   "{{ python_package_name }}/",
