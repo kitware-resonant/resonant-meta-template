@@ -215,13 +215,11 @@ testpaths = ["tests"]
 pythonpath = ["tests"]
 # Configure pythonpath ourselves, not based on manage.py
 django_find_project = false
+strict = true
 addopts = [
   # Use the Pytest-recommended "importlib" mode
   "--import-mode=importlib",
-  "--strict-config",
-  "--strict-markers",
   "--showlocals",
-  "--verbose",
   "--cov",
   # Specifying as "--ds" will override any value in the environment
   "--ds=test_app.settings",
