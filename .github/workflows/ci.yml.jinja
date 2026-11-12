@@ -21,6 +21,7 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v7
         with:
+          version-file: uv.lock
           python-version: {% raw %}${{ matrix.python-version }}{% endraw %}
       - name: Run tests
         run: |
