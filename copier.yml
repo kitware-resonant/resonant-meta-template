@@ -8,7 +8,7 @@ min_python_minor_version:
   default: 12
   help: The minimum Python minor version supported by the project.
 max_python_minor_version:
-  default: 14
+  default: 15
   help: The maximum Python minor version supported by the project.
 django_project:
   default: false
